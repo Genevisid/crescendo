@@ -346,7 +346,7 @@ class Music(commands.Cog):
         ctx.voice_state.volume = volume / 100
         await ctx.send('Volume of the player set to {}%'.format(volume))
 
-    @commands.command(name='now', aliases=['current', 'playing'])
+    @commands.command(name='now', aliases=['current', 'playing','np'])
     async def np(self, ctx: commands.Context):
         """Displays the currently playing song."""
 
@@ -364,6 +364,15 @@ class Music(commands.Cog):
     @commands.command(name='resume')
     @commands.has_permissions(manage_guild=True)
     async def resume(self, ctx: commands.Context):
+
+
+        if not ctx.voice_state.is_playing and ctx.voice_state.voice.is_paused():
+            ctx.voice_state.voice.resume()
+            await ctx.message.add_reaction('⏯')
+         
+    @commands.command(name='r')
+    @commands.has_permissions(manage_guild=True)
+    async def r(self, ctx: commands.Context):
 
 
         if not ctx.voice_state.is_playing and ctx.voice_state.voice.is_paused():
@@ -405,8 +414,87 @@ class Music(commands.Cog):
 
         else:
             await ctx.send("STOP YOU'VE ALREADY VOTED")
+    
+    
+    
+    @commands.command(name='next')
+    async def next(self, ctx: commands.Context):
 
-    @commands.command(name='queue')
+
+        if not ctx.voice_state.is_playing:
+            return await ctx.send('Not playing any music right now...')
+
+        voter = ctx.message.author
+        if voter == ctx.voice_state.current.requester:
+            await ctx.message.add_reaction('⏭')
+            ctx.voice_state.skip()
+
+        elif voter.id not in ctx.voice_state.skip_votes:
+            ctx.voice_state.skip_votes.add(voter.id)
+            total_votes = len(ctx.voice_state.skip_votes)
+
+            if total_votes >= 3:
+                await ctx.message.add_reaction('⏭')
+                ctx.voice_state.skip()
+            else:
+                await ctx.send('WANNA SKIP?GUESS WHAT YOU NEED 2 MORE PEOPLE MF **{}/3**'.format(total_votes))
+
+        else:
+            await ctx.send("STOP YOU'VE ALREADY VOTED")
+    
+    
+    
+    @commands.command(name='skip')
+    async def skip(self, ctx: commands.Context):
+
+
+        if not ctx.voice_state.is_playing:
+            return await ctx.send('Not playing any music right now...')
+
+        voter = ctx.message.author
+        if voter == ctx.voice_state.current.requester:
+            await ctx.message.add_reaction('⏭')
+            ctx.voice_state.skip()
+
+        elif voter.id not in ctx.voice_state.skip_votes:
+            ctx.voice_state.skip_votes.add(voter.id)
+            total_votes = len(ctx.voice_state.skip_votes)
+
+            if total_votes >= 3:
+                await ctx.message.add_reaction('⏭')
+                ctx.voice_state.skip()
+            else:
+                await ctx.send('you need 2 people **{}/3**'.format(total_votes))
+
+        else:
+            await ctx.send("STOP YOU'VE ALREADY VOTED"
+    
+    @commands.command(name='fs')
+    async def fs(self, ctx: commands.Context):
+
+
+        if not ctx.voice_state.is_playing:
+            return await ctx.send('Not playing any music right now...')
+
+        voter = ctx.message.author
+        if voter == ctx.voice_state.current.requester:
+            await ctx.message.add_reaction('⏭')
+            ctx.voice_state.skip()
+
+        elif voter.id not in ctx.voice_state.skip_votes:
+            ctx.voice_state.skip_votes.add(voter.id)
+            total_votes = len(ctx.voice_state.skip_votes)
+
+            if total_votes >= 1:
+                await ctx.message.add_reaction('⏭')
+                ctx.voice_state.skip()
+            else:
+                await ctx.send('WANNA SKIP?GUESS WHAT YOU NEED 2 MORE PEOPLE MF **{}/3**'.format(total_votes))
+
+        else:
+            await ctx.send("STOP YOU'VE ALREADY VOTED")                       
+    
+    @commands.command(name='queue', aliases=['q'])
     async def q(self, ctx: commands.Context, *, page: int = 1):
 
 
