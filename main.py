@@ -467,7 +467,7 @@ class Music(commands.Cog):
                 await ctx.send('you need 2 people **{}/3**'.format(total_votes))
 
         else:
-            await ctx.send("STOP YOU'VE ALREADY VOTED"
+            await ctx.send("STOP YOU'VE ALREADY VOTED")
     
      @commands.command(name='fs')
      async def force(self, ctx: commands.Context):
