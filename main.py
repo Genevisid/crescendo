@@ -470,7 +470,7 @@ class Music(commands.Cog):
             await ctx.send("STOP YOU'VE ALREADY VOTED"
     
      @commands.command(name='fs')
-     async def fs(self, ctx: commands.Context):
+     async def force(self, ctx: commands.Context):
 
 
         if not ctx.voice_state.is_playing:
