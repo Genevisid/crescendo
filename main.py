@@ -481,4 +481,4 @@ bot.add_cog(Music(bot))
 async def on_ready():
     print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
 
-bot.run('NzY4NzcxOTIwOTMzMDI3ODQx.X5FUpQ.Sgh8WOfRG4JRLIyhtQLeNC_W4rg')
+bot.run("NzY4NzcxOTIwOTMzMDI3ODQx.X5FUpQ.sLen-6fC1HgbYPXau8Y4ysGTDa8")
