@@ -13,7 +13,7 @@ from discord.ext import commands
 # Silence useless bug reports messages
 youtube_dl.utils.bug_reports_message = lambda: ''
 
-token='NzkyMjY2NDcxNDU0OTMzMDEy.X-bNpg.XoGqEJTGwR4XCGoRKh0z2PTTsXs'
+token='NzY4NzcxOTIwOTMzMDI3ODQx.X5FUpQ.3RgV5kAgF3nT8GRtFBzQ64NeH_w'
 class VoiceError(Exception):
     pass
 
