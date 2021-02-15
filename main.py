@@ -297,7 +297,7 @@ class Music(commands.Cog):
         await ctx.send('An error occurred: {}'.format(str(error)))
 
     @commands.command(name='join', invoke_without_subcommand=True)
-    async def _join(self, ctx: commands.Context):
+    async def join(self, ctx: commands.Context):
 
 
         destination = ctx.author.voice.channel
@@ -363,7 +363,7 @@ class Music(commands.Cog):
 
     @commands.command(name='resume')
     @commands.has_permissions(manage_guild=True)
-    async def _resume(self, ctx: commands.Context):
+    async def resume(self, ctx: commands.Context):
 
 
         if not ctx.voice_state.is_playing and ctx.voice_state.voice.is_paused():
