@@ -584,6 +584,17 @@ class Music(commands.Cog):
                 await ctx.voice_state.songs.put(song)
                 await ctx.send('Enqueued {}'.format(str(source)))
                 await ctx.message.add_reaction('🎶')
+    
+    @commands.command(name='lyrics')
+    async def lyrics(self,ctx,*,artist, title):
+        r = requests.get('https://api.lyrics.ovh/v1/{}/{}'.format(artist, title))
+        if r.status_code == 200:
+            l_response = json.loads(r.content)
+            try:
+                lyric = l_response["lyrics"]
+                await ctx.send(f'Here are the lyrics:\n{lyric}')
+            except:
+                await ctx.send(f'Lyrics not found.')
 
     @join.before_invoke
     @play.before_invoke
