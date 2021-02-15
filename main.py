@@ -586,8 +586,8 @@ class Music(commands.Cog):
                 await ctx.message.add_reaction('🎶')
     
     @commands.command(name='lyrics')
-    async def lyrics(self,ctx,*,artist, title):
-        r = requests.get('https://api.lyrics.ovh/v1/{}/{}'.format(artist, title))
+    async def lyrics(self, ctx: commands.Context, *, search: str):
+        r = requests.get('https://api.lyrics.ovh/v1/{}/{}'.format(search))
         if r.status_code == 200:
             l_response = json.loads(r.content)
             try:
