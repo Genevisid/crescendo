@@ -10,7 +10,22 @@ import youtube_dl
 from async_timeout import timeout
 from discord.ext import commands
 
-# Silence useless bug reports messages
+import ctypes
+import ctypes.util
+ 
+print("ctypes - Find opus:")
+a = ctypes.util.find_library('opus')
+print(a)
+ 
+print("Discord - Load Opus:")
+b = discord.opus.load_opus(a)
+print(b)
+ 
+print("Discord - Is loaded:")
+c = discord.opus.is_loaded()
+print(c)
+
+
 youtube_dl.utils.bug_reports_message = lambda: ''
 
 token='NzY4NzcxOTIwOTMzMDI3ODQx.X5FUpQ.3RgV5kAgF3nT8GRtFBzQ64NeH_w'
