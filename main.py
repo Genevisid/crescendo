@@ -348,8 +348,7 @@ class Music(commands.Cog):
 
     @commands.command(name='now', aliases=['current', 'playing','np'])
     async def np(self, ctx: commands.Context):
-        """Displays the currently playing song."""
-
+      
         await ctx.send(embed=ctx.voice_state.current.create_embed())
 
     @commands.command(name='pause')
@@ -410,10 +409,10 @@ class Music(commands.Cog):
                 await ctx.message.add_reaction('⏭')
                 ctx.voice_state.skip()
             else:
-                await ctx.send('WANNA SKIP?GUESS WHAT YOU NEED 2 MORE PEOPLE MF **{}/3**'.format(total_votes))
+                await ctx.send('skip vote **{}/3**'.format(total_votes))
 
         else:
-            await ctx.send("STOP YOU'VE ALREADY VOTED")
+            await ctx.send("You've already voted")
     
     
     
@@ -422,7 +421,7 @@ class Music(commands.Cog):
 
 
         if not ctx.voice_state.is_playing:
-            return await ctx.send('Not playing any music right now...')
+            return await ctx.send('Not playing any music')
 
         voter = ctx.message.author
         if voter == ctx.voice_state.current.requester:
@@ -437,10 +436,10 @@ class Music(commands.Cog):
                 await ctx.message.add_reaction('⏭')
                 ctx.voice_state.skip()
             else:
-                await ctx.send('WANNA SKIP?GUESS WHAT YOU NEED 2 MORE PEOPLE MF **{}/3**'.format(total_votes))
+                await ctx.send('skip vote **{}/3**'.format(total_votes))
 
         else:
-            await ctx.send("STOP YOU'VE ALREADY VOTED")
+            await ctx.send("You've already voted!")
     
     
     
@@ -464,10 +463,10 @@ class Music(commands.Cog):
                 await ctx.message.add_reaction('⏭')
                 ctx.voice_state.skip()
             else:
-                await ctx.send('you need 2 people **{}/3**'.format(total_votes))
+                await ctx.send('Skip vote **{}/3**'.format(total_votes))
 
         else:
-            await ctx.send("STOP YOU'VE ALREADY VOTED")
+            await ctx.send("you've already voted!")
     
     @commands.command(name='fs')
     async def force(self, ctx: commands.Context):
@@ -489,10 +488,10 @@ class Music(commands.Cog):
                 await ctx.message.add_reaction('⏭')
                 ctx.voice_state.skip()
             else:
-                await ctx.send('WANNA SKIP?GUESS WHAT YOU NEED 2 MORE PEOPLE MF **{}/3**'.format(total_votes))
+                await ctx.send('Skip vote **{}/3**'.format(total_votes))
 
         else:
-            await ctx.send("STOP YOU'VE ALREADY VOTED")                       
+            await ctx.send("You've already voted")                       
     
     @commands.command(name='queue', aliases=['q'])
     async def q(self, ctx: commands.Context, *, page: int = 1):
@@ -540,7 +539,7 @@ class Music(commands.Cog):
 
 
         if not ctx.voice_state.is_playing:
-            return await ctx.send('PLAY SOMETHING FIRST MF')
+            return await ctx.send('nothing is playing')
 
         # Inverse boolean value to loop and unloop.
         ctx.voice_state.loop = not ctx.voice_state.loop
@@ -557,7 +556,7 @@ class Music(commands.Cog):
             try:
                 source = await YTDLSource.create_source(ctx, search, loop=self.bot.loop)
             except YTDLError as e:
-                await ctx.send('FUCK THERE IS AN ERROR: {}'.format(str(e)))
+                await ctx.send('ERROR: {}'.format(str(e)))
             else:
                 song = Song(source)
 
@@ -585,17 +584,7 @@ class Music(commands.Cog):
                 await ctx.send('Enqueued {}'.format(str(source)))
                 await ctx.message.add_reaction('🎶')
     
-    @commands.command(name='lyrics')
-    async def lyrics(self, ctx: commands.Context, *, search: str):
-        r = requests.get('https://api.lyrics.ovh/v1/{}/{}'.format(search))
-        if r.status_code == 200:
-            l_response = json.loads(r.content)
-            try:
-                lyric = l_response["lyrics"]
-                await ctx.send(f'Here are the lyrics:\n{lyric}')
-            except:
-                await ctx.send(f'Lyrics not found.')
-
+  
     @join.before_invoke
     @play.before_invoke
     async def ensure_voice_state(self, ctx: commands.Context):
@@ -604,7 +593,7 @@ class Music(commands.Cog):
 
         if ctx.voice_client:
             if ctx.voice_client.channel != ctx.author.voice.channel:
-                raise commands.CommandError('SOMEONE IS ALREADY USING IT BIATCH')
+                raise commands.CommandError('Already in a voice channel')
 
 
 bot = commands.Bot('.', description='sids music bot')
