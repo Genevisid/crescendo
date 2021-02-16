@@ -583,6 +583,12 @@ class Music(commands.Cog):
                 await ctx.voice_state.songs.put(song)
                 await ctx.send('Enqueued {}'.format(str(source)))
                 await ctx.message.add_reaction('🎶')
+                
+     @commands.command(name='servers',pass_context=True)
+     async def botservers(ctx):
+            
+         await client.say("I'm in " + str(len(client.servers)) + " servers")
+
     
   
     @join.before_invoke
