@@ -607,7 +607,7 @@ class Music(commands.Cog):
         client_credentials_manager = SpotifyClientCredentials()
         sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-        if "." and "track" in str(URL):
+        if ".spotify" and "track" in str(URL):
             track = str(URL)
             res = sp.track(track)
             song = res['name']
@@ -626,7 +626,7 @@ class Music(commands.Cog):
                 await ctx.message.add_reaction('🎶')
 
 
-        elif "." and "album" in str(URL):
+        elif ".spotify" and "album" in str(URL):
             album =str(URL)
             res = sp.album_tracks(album)
             for items in res["items"]:
@@ -645,7 +645,7 @@ class Music(commands.Cog):
                     await ctx.message.add_reaction('🎶')
 
 
-        elif "." and "playlist" in str(URL):
+        elif ".spotify" and "playlist" in str(URL):
             playlist = str(URL)
             res = sp.playlist_tracks(playlist)
             for items in res["items"]:
