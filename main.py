@@ -13,6 +13,10 @@ import discord
 import youtube_dl
 from async_timeout import timeout
 from discord.ext import commands
+import os
+
+os.environ["SPOTIPY_CLIENT_ID"] ='21bb33d11bfb49bbbfa243c2c124cacb'
+os.environ["SPOTIPY_CLIENT_SECRET"] ='3cbcadf170b04d69b0169b345f8c6d0f'
  
 print("ctypes - Find opus:")
 a = ctypes.util.find_library('opus')
@@ -598,9 +602,9 @@ class Music(commands.Cog):
             await ctx.invoke(self.join)
 
 
-        token=util.prompt_for_user_token("DISCORD MUSIC BOT","playlist-modify-public",client_id='21bb33d11bfb49bbbfa243c2c124cacb',client_secret='3cbcadf170b04d69b0169b345f8c6d0f',redirect_uri='http://localhost:8888/callback')
-
-        sp = spotipy.Spotify(auth=token)
+        
+        client_credentials_manager = SpotifyClientCredentials()
+        sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
         if "track" in str(URL):
             track = str(URL)
