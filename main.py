@@ -13,6 +13,7 @@ import discord
 import youtube_dl
 from async_timeout import timeout
 from discord.ext import commands
+from spotipy.oauth2 import SpotifyClientCredentials
 import os
 
 os.environ["SPOTIPY_CLIENT_ID"] ='21bb33d11bfb49bbbfa243c2c124cacb'
