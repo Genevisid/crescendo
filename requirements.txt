@@ -2,3 +2,4 @@ discord
 youtube_dl
 PyNacl
 ffmpeg
+spotipy
