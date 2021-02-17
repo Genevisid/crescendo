@@ -1,17 +1,18 @@
-
+from __future__ import print_function
 import asyncio
 import functools
 import itertools
 import math
 import random
-
+import ctypes
+import ctypes.util
+import sys
+import spotipy
+import spotipy.util as util
 import discord
 import youtube_dl
 from async_timeout import timeout
 from discord.ext import commands
-
-import ctypes
-import ctypes.util
  
 print("ctypes - Find opus:")
 a = ctypes.util.find_library('opus')
@@ -591,6 +592,77 @@ class Music(commands.Cog):
 
     
   
+    @commands.command(name='spotify')
+    async def cmd_spotify(self, ctx: commands.Context, *,URL):
+        if not ctx.voice_state.voice:
+            await ctx.invoke(self.join)
+
+
+        token=util.prompt_for_user_token("DISCORD MUSIC BOT","playlist-modify-public",client_id='21bb33d11bfb49bbbfa243c2c124cacb',client_secret='3cbcadf170b04d69b0169b345f8c6d0f',redirect_uri='http://localhost:8888/callback')
+
+        sp = spotipy.Spotify(auth=token)
+
+        if "track" in str(URL):
+            track = str(URL)
+            res = sp.track(track)
+            song = res['name']
+            artist = res['artists'][0]['name']
+            songToPlay= str(song) + str(artist)
+            try:
+                    source= await YTDLSource.create_source(ctx,songToPlay, loop=self.bot.loop)
+            except YTDLError as e:
+                await ctx.send('OH NO ERROR: {}'.format(str(e)))
+
+            else:
+                song = Song(source)
+
+                await ctx.voice_state.songs.put(song)
+                await ctx.send('Enqueued {}'.format(str(source)))
+                await ctx.message.add_reaction('🎶')
+
+
+        elif "album" in str(URL):
+            album =str(URL)
+            res = sp.album_tracks(album)
+            for items in res["items"]:
+                song = items["name"]
+                artist = items["artists"][0]["name"]
+                songToPlay = str(song) + str(artist)
+                try:
+                    source = await YTDLSource.create_source(ctx, songToPlay, loop=self.bot.loop)
+                except YTDLError as e:
+                    await ctx.send('OH NO ERROR:{}'.format(str(e)))
+                else:
+                    song = Song(source)
+
+                    await ctx.voice_state.songs.put(song)
+                    await ctx.send('Enqueued {}'.format(str(source)))
+                    await ctx.message.add_reaction('🎶')
+
+
+        elif "playlist" in str(URL):
+            playlist = str(URL)
+            res = sp.playlist_tracks(playlist)
+            for items in res["items"]:
+                song = items["track"]["name"]
+                artist = items["track"]["artists"][0]["name"]
+                songToPlay = str(song) + str(artist)
+                try:
+                    source = await YTDLSource.create_source(ctx, songToPlay, loop=self.bot.loop)
+                except YTDLError as e:
+                    await ctx.send('OH NO ERROR: {}'.format(str(e)))
+                else:
+                    song = Song(source)
+
+                    await ctx.voice_state.songs.put(song)
+                    await ctx.send('Enqueued {}'.format(str(source)))
+                    await ctx.message.add_reaction('🎶')
+ 
+   
+   
+   
+   
+   
     @join.before_invoke
     @play.before_invoke
     async def ensure_voice_state(self, ctx: commands.Context):
