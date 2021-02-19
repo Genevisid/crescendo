@@ -655,7 +655,13 @@ class Music(commands.Cog):
    
     @commands.command(name='ping')
     async def ping(ctx):
-       await ctx.send('Pong! {0}'.format(round(bot.latency, 1)))
+    """ Pong! """
+    await delete_message(ctx.message)
+    before = time.monotonic()
+    message = await ctx.send("Pong!")
+    ping = (time.monotonic() - before) * 1000
+    await message.edit(content=f"Pong!  `{int(ping)}ms`")
+    print(f'Ping {int(ping)}ms')
     
     
     
