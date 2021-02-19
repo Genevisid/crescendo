@@ -653,7 +653,15 @@ class Music(commands.Cog):
    
    
    
-   
+    @commands.command(name='ping')
+    async def ping(ctx):
+       await ctx.send('Pong! {0}'.format(round(bot.latency, 1)))
+    
+    
+    
+    
+    
+    
     @join.before_invoke
     @play.before_invoke
     async def ensure_voice_state(self, ctx: commands.Context):
