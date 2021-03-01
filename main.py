@@ -34,7 +34,7 @@ print(c)
 
 youtube_dl.utils.bug_reports_message = lambda: ''
 
-token='NzY4NzcxOTIwOTMzMDI3ODQx.X5FUpQ.3RgV5kAgF3nT8GRtFBzQ64NeH_w'
+token='NzY4NzcxOTIwOTMzMDI3ODQx.X5FUpQ.geJb6QR7LF6Pc7Eerhc1xyUbmUM'
 class VoiceError(Exception):
     pass
 
