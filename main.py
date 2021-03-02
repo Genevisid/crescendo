@@ -16,25 +16,26 @@ from discord.ext import commands
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
 
-os.environ["SPOTIPY_CLIENT_ID"] ='21bb33d11bfb49bbbfa243c2c124cacb'
-os.environ["SPOTIPY_CLIENT_SECRET"] ='3cbcadf170b04d69b0169b345f8c6d0f'
- 
+os.environ["SPOTIPY_CLIENT_ID"] = '21bb33d11bfb49bbbfa243c2c124cacb'
+os.environ["SPOTIPY_CLIENT_SECRET"] = '3cbcadf170b04d69b0169b345f8c6d0f'
+
 print("ctypes - Find opus:")
 a = ctypes.util.find_library('opus')
 print(a)
- 
+
 print("Discord - Load Opus:")
 b = discord.opus.load_opus(a)
 print(b)
- 
+
 print("Discord - Is loaded:")
 c = discord.opus.is_loaded()
 print(c)
 
-
 youtube_dl.utils.bug_reports_message = lambda: ''
 
-token='NzY4NzcxOTIwOTMzMDI3ODQx.X5FUpQ.geJb6QR7LF6Pc7Eerhc1xyUbmUM'
+token = 'NzY4NzcxOTIwOTMzMDI3ODQx.X5FUpQ.geJb6QR7LF6Pc7Eerhc1xyUbmUM'
+
+
 class VoiceError(Exception):
     pass
 
@@ -305,7 +306,6 @@ class Music(commands.Cog):
     @commands.command(name='join', invoke_without_subcommand=True)
     async def join(self, ctx: commands.Context):
 
-
         destination = ctx.author.voice.channel
         if ctx.voice_state.voice:
             await ctx.voice_state.voice.move_to(destination)
@@ -317,7 +317,6 @@ class Music(commands.Cog):
     @commands.has_permissions(manage_guild=True)
     async def _summon(self, ctx: commands.Context, *, channel: discord.VoiceChannel = None):
 
-
         if not channel and not ctx.author.voice:
             raise VoiceError('You are neither connected to a voice channel nor specified a channel to join.')
 
@@ -328,10 +327,9 @@ class Music(commands.Cog):
 
         ctx.voice_state.voice = await destination.connect()
 
-    @commands.command(name='leave', aliases=['disconnect','s'])
+    @commands.command(name='leave', aliases=['disconnect', 's'])
     @commands.has_permissions(manage_guild=True)
     async def leave(self, ctx: commands.Context):
-
 
         if not ctx.voice_state.voice:
             return await ctx.send('Not connected to any voice channel.')
@@ -342,7 +340,6 @@ class Music(commands.Cog):
     @commands.command(name='volume')
     async def volume(self, ctx: commands.Context, *, volume: int):
 
-
         if not ctx.voice_state.is_playing:
             return await ctx.send('PLAY SOMETHING FIRST')
 
@@ -352,15 +349,14 @@ class Music(commands.Cog):
         ctx.voice_state.volume = volume / 100
         await ctx.send('Volume of the player set to {}%'.format(volume))
 
-    @commands.command(name='now', aliases=['current', 'playing','np'])
+    @commands.command(name='now', aliases=['current', 'playing', 'np'])
     async def np(self, ctx: commands.Context):
-      
+
         await ctx.send(embed=ctx.voice_state.current.create_embed())
 
     @commands.command(name='pause')
     @commands.has_permissions(manage_guild=True)
     async def pause(self, ctx: commands.Context):
-
 
         if ctx.voice_state.is_playing and ctx.voice_state.voice.is_playing():
             ctx.voice_state.voice.pause()
@@ -370,15 +366,13 @@ class Music(commands.Cog):
     @commands.has_permissions(manage_guild=True)
     async def resume(self, ctx: commands.Context):
 
-
         if ctx.voice_state.is_playing and ctx.voice_state.voice.is_paused():
             ctx.voice_state.voice.resume()
             await ctx.message.add_reaction('⏯')
-         
+
     @commands.command(name='r')
     @commands.has_permissions(manage_guild=True)
     async def r(self, ctx: commands.Context):
-
 
         if ctx.voice_state.is_playing and ctx.voice_state.voice.is_paused():
             ctx.voice_state.voice.resume()
@@ -388,7 +382,6 @@ class Music(commands.Cog):
     @commands.has_permissions(manage_guild=True)
     async def stop(self, ctx: commands.Context):
 
-
         ctx.voice_state.songs.clear()
 
         if ctx.voice_state.is_playing:
@@ -397,7 +390,6 @@ class Music(commands.Cog):
 
     @commands.command(name='skip')
     async def skip(self, ctx: commands.Context):
-
 
         if not ctx.voice_state.is_playing:
             return await ctx.send('Not playing any music right now...')
@@ -419,12 +411,9 @@ class Music(commands.Cog):
 
         else:
             await ctx.send("You've already voted")
-    
-    
-    
+
     @commands.command(name='next')
     async def next(self, ctx: commands.Context):
-
 
         if not ctx.voice_state.is_playing:
             return await ctx.send('Not playing any music')
@@ -446,12 +435,9 @@ class Music(commands.Cog):
 
         else:
             await ctx.send("You've already voted!")
-    
-    
-    
+
     @commands.command(name='skip')
     async def skip(self, ctx: commands.Context):
-
 
         if not ctx.voice_state.is_playing:
             return await ctx.send('Not playing any music right now...')
@@ -473,21 +459,19 @@ class Music(commands.Cog):
 
         else:
             await ctx.send("you've already voted!")
-    
+
     @commands.command(name='fs')
     @commands.has_role('DJ' or 'dj')
     async def force(self, ctx: commands.Context):
-
 
         if not ctx.voice_state.is_playing:
             return await ctx.send('Not playing any music right now...')
 
         else:
             ctx.voice_state.skip()
-    
+
     @commands.command(name='queue', aliases=['q'])
     async def q(self, ctx: commands.Context, *, page: int = 1):
-
 
         if len(ctx.voice_state.songs) == 0:
             return await ctx.send('Empty queue.')
@@ -509,7 +493,6 @@ class Music(commands.Cog):
     @commands.command(name='shuffle')
     async def shuffle(self, ctx: commands.Context):
 
-
         if len(ctx.voice_state.songs) == 0:
             return await ctx.send('Empty queue.')
 
@@ -518,7 +501,6 @@ class Music(commands.Cog):
 
     @commands.command(name='remove')
     async def remove(self, ctx: commands.Context, index: int):
-
 
         if len(ctx.voice_state.songs) == 0:
             return await ctx.send('Empty queue.')
@@ -529,7 +511,6 @@ class Music(commands.Cog):
     @commands.command(name='loop')
     async def loop(self, ctx: commands.Context):
 
-
         if not ctx.voice_state.is_playing:
             return await ctx.send('nothing is playing')
 
@@ -539,8 +520,73 @@ class Music(commands.Cog):
 
     @commands.command(name='play')
     async def play(self, ctx: commands.Context, *, search: str):
+      if "spotify" in search:
+        if not ctx.voice_state.voice:
+            await ctx.invoke(self.join)
+
+        client_credentials_manager = SpotifyClientCredentials()
+        sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+        if ".spotify" and "track" in str(search):
+            track = str(search)
+            res = sp.track(track)
+            song = res['name']
+            artist = res['artists'][0]['name']
+            songToPlay = str(song) + str(artist)
+            try:
+                source = await YTDLSource.create_source(ctx, songToPlay, loop=self.bot.loop)
+            except YTDLError as e:
+                await ctx.send('OH NO ERROR: {}'.format(str(e)))
+
+            else:
+                song = Song(source)
+
+                await ctx.voice_state.songs.put(song)
+                await ctx.send('Enqueued {}'.format(str(source)))
+                await ctx.message.add_reaction('🎶')
 
 
+        elif ".spotify" and "album" in str(search):
+            album = str(search)
+            res = sp.album_tracks(album)
+            for items in res["items"]:
+                song = items["name"]
+                artist = items["artists"][0]["name"]
+                songToPlay = str(song) + str(artist)
+                try:
+                    source = await YTDLSource.create_source(ctx, songToPlay, loop=self.bot.loop)
+                except YTDLError as e:
+                    await ctx.send('OH NO ERROR:{}'.format(str(e)))
+                else:
+                    song = Song(source)
+
+                    await ctx.voice_state.songs.put(song)
+                    await ctx.send('Enqueued {}'.format(str(source)))
+                    await ctx.message.add_reaction('🎶')
+
+
+        elif ".spotify" and "playlist" in str(search):
+            playlist = str(search)
+            res = sp.playlist_tracks(playlist)
+            for items in res["items"]:
+                song = items["track"]["name"]
+                artist = items["track"]["artists"][0]["name"]
+                songToPlay = str(song) + str(artist)
+                try:
+                    source = await YTDLSource.create_source(ctx, songToPlay, loop=self.bot.loop)
+                except YTDLError as e:
+                    await ctx.send('OH NO ERROR: {}'.format(str(e)))
+                else:
+                    song = Song(source)
+
+                    await ctx.voice_state.songs.put(song)
+                    await ctx.send('Enqueued {}'.format(str(source)))
+                    await ctx.message.add_reaction('🎶')
+        
+        
+        
+        
+      else:
         if not ctx.voice_state.voice:
             await ctx.invoke(self.join)
 
@@ -556,10 +602,8 @@ class Music(commands.Cog):
                 await ctx.send('Enqueued {}'.format(str(source)))
                 await ctx.message.add_reaction('🎶')
 
-                
     @commands.command(name='p')
     async def p(self, ctx: commands.Context, *, search: str):
-
 
         if not ctx.voice_state.voice:
             await ctx.invoke(self.join)
@@ -575,21 +619,14 @@ class Music(commands.Cog):
                 await ctx.voice_state.songs.put(song)
                 await ctx.send('Enqueued {}'.format(str(source)))
                 await ctx.message.add_reaction('🎶')
-                
-    @commands.command(name='servers',pass_context=True)
-    async def botservers(ctx):
-            
-         await client.say("I'm in " + str(len(client.servers)) + " servers")
 
-    
-  
+
+
     @commands.command(name='spotify')
-    async def cmd_spotify(self, ctx: commands.Context, *,URL):
+    async def cmd_spotify(self, ctx: commands.Context, *, URL):
         if not ctx.voice_state.voice:
             await ctx.invoke(self.join)
 
-
-        
         client_credentials_manager = SpotifyClientCredentials()
         sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
@@ -598,9 +635,9 @@ class Music(commands.Cog):
             res = sp.track(track)
             song = res['name']
             artist = res['artists'][0]['name']
-            songToPlay= str(song) + str(artist)
+            songToPlay = str(song) + str(artist)
             try:
-                    source= await YTDLSource.create_source(ctx,songToPlay, loop=self.bot.loop)
+                source = await YTDLSource.create_source(ctx, songToPlay, loop=self.bot.loop)
             except YTDLError as e:
                 await ctx.send('OH NO ERROR: {}'.format(str(e)))
 
@@ -613,7 +650,7 @@ class Music(commands.Cog):
 
 
         elif ".spotify" and "album" in str(URL):
-            album =str(URL)
+            album = str(URL)
             res = sp.album_tracks(album)
             for items in res["items"]:
                 song = items["name"]
@@ -648,26 +685,9 @@ class Music(commands.Cog):
                     await ctx.voice_state.songs.put(song)
                     await ctx.send('Enqueued {}'.format(str(source)))
                     await ctx.message.add_reaction('🎶')
- 
-   
-   
-   
-   
-    @commands.command(name='ping')
-    async def ping():
-      """ Pong! """
-      await delete_message(ctx.message)
-      before = time.monotonic()
-      await message.send("Pong!")
-      ping = (time.monotonic() - before) * 1000
-      await message.edit(content=f"Pong!  `{int(ping)}ms`")
-      print(f'Ping {int(ping)}ms')
-    
-    
-    
-    
-    
-    
+
+
+
     @join.before_invoke
     @play.before_invoke
     async def ensure_voice_state(self, ctx: commands.Context):
@@ -686,5 +706,6 @@ bot.add_cog(Music(bot))
 @bot.event
 async def on_ready():
     print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
+
 
 bot.run(token)
