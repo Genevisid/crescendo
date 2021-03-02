@@ -518,7 +518,7 @@ class Music(commands.Cog):
         ctx.voice_state.loop = not ctx.voice_state.loop
         await ctx.message.add_reaction('✅')
 
-    @commands.command(name='play')
+    @commands.command(name='play',aliases=['p'])
     async def play(self, ctx: commands.Context, *, search: str):
       if "spotify" in search:
         if not ctx.voice_state.voice:
@@ -602,23 +602,7 @@ class Music(commands.Cog):
                 await ctx.send('Enqueued {}'.format(str(source)))
                 await ctx.message.add_reaction('🎶')
 
-    @commands.command(name='p')
-    async def p(self, ctx: commands.Context, *, search: str):
-
-        if not ctx.voice_state.voice:
-            await ctx.invoke(self.join)
-
-        async with ctx.typing():
-            try:
-                source = await YTDLSource.create_source(ctx, search, loop=self.bot.loop)
-            except YTDLError as e:
-                await ctx.send('FUCK THERE IS AN ERROR: {}'.format(str(e)))
-            else:
-                song = Song(source)
-
-                await ctx.voice_state.songs.put(song)
-                await ctx.send('Enqueued {}'.format(str(source)))
-                await ctx.message.add_reaction('🎶')
+    
 
 
 
