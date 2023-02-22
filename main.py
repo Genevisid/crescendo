@@ -1062,7 +1062,7 @@ async def on_message(message):
         print(e)
         await ctx.send("You haven't set any track as your favourite or haven't provided a valid argument",delete_after=5)
     await message.delete()
-  elif str(message.guild.id) == '486087729537482762':
+  elif str(message.guild.id) == '': #fill the quotations with the channel id you want the bot to be in
     if message.content.lower().startswith('.'):
       await bot.process_commands(message)
   else:
@@ -1092,9 +1092,8 @@ async def on_message(message):
 @bot.event
 async def on_ready():
  print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
- activityvar = discord.Activity(name="Late Registration By Kanye West", type=2)
  await bot.change_presence(activity=activityvar, status=discord.Status.idle) 
- g=bot.get_guild(559695081007874048)
+ g=bot.get_guild() #fill the brackets with your guild's id
  await g.leave()
  with open("tracks.json","r") as f:
               d=json.load(f)
@@ -1102,4 +1101,4 @@ async def on_ready():
       d[str(i)]=[]
       with open("tracks.json","w") as f:
                     json.dump(d,f)         
-bot.run('ODExNTgxMzg2OTAwNTA0NTk2.YC0SEQ.Q1dVXHXV1JD-oHjZM4lvg62crjY')
+bot.run('YOUR_BOT_TOKEN')
